@@ -1,10 +1,9 @@
-# 49ersRacingLapTimeSim
+# 49ers Racing UNC Charlotte Formula SAE
  
-Rishabh Ravi and Franco Antunez - Project Managers
+Rishabh Ravi - Project Managers
 
-This Repository is a compilation of all work for a
-Lap Time Simulator for UNC Charlotte 49ers Racing
+This Repository is a compilation of all work for 
+UNC Charlotte 49ers Racing
 
-The creators of this repository are Franco Antunez
-and Rishabh Ravi
+The creator of this repository is Rishabh Ravi
 
