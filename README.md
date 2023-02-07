@@ -1,6 +1,6 @@
 # 49ers Racing UNC Charlotte Formula SAE
  
-Rishabh Ravi - Project Managers
+Rishabh Ravi - Project Manager
 
 This Repository is a compilation of all work for 
 UNC Charlotte 49ers Racing
