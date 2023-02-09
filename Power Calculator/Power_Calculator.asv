@@ -3,20 +3,21 @@ VehicleMass = 40.194277;
 VelocityTrace = csvread('EnduranceVelocityTrace.csv');
 time = VelocityTrace( :,1);
 Velocity = VelocityTrace(:,2);
-Velocity = .3048 .* Velocity;
+Velocity = .3048 .* velocity;
 AccelerationTrace = csvread('EnduranceAccelerationTrace.csv');
 Acceleration = AccelerationTrace(:,2);
-Acceleration = 9.81 .* Acceleration;
-air_density = 1.225;
-frontal_area = 1.8;
-CD = .25;
-Croll = .2;
+Acceleration = 
+air_density = ;
+frontal_area = ;
+CD = ;
+Croll = ;
 
 %%
 Power = VehicleMass .* AccelerationTrace .* VelocityTrace + (1/2)* air_density * frontal_area * CD .* VelocityTrace.^3 + Croll * VehicleMass .* VelocityTrace;
 
+Energy = integral(fun,xmin,xmax)
 
 time_limits = [min(time), max(time)];
-time_index = time_limits(1) <= time & time <= time_limits(2);
+time_index = time_limits(1) <= x & x <= time_limits(2);
 dx = time(2) - time(1); % Calculate the step size
-Energy = sum(Velocity(time_index)) * dx;
+area = sum(Velocity(time_index)) * dx;
