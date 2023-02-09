@@ -1,0 +1,37 @@
+% Load the data from the CSV file
+data = csvread('EnduranceVelocityTrace.csv');
+% total distance
+
+% Extract the second column of data
+y = data(:,2);
+
+% Sort the data in ascending order
+y = sort(y);
+
+% Define the independent variable x
+x = data(:,1);
+
+% Fit a line of best fit to the data
+%p = polyfit(x, y, 7);
+
+%find area under curve
+while(x < totalDistance)
+x(n)
+end
+
+% Plot the data and the line of best fit
+figure;
+plot(x, y, 'o');
+xlabel('x');
+ylabel('y');
+title('Line of Best Fit');
+
+% Calculate the area under the curve from 0 to 14990 using the trapezoidal method
+x_limits = [min(x), max(x)];
+x_index = x_limits(1) <= x & x <= x_limits(2);
+area = trapz(x(x_index), y(x_index));
+
+disp(['The area required for 1 lap is: ', num2str(area), ' joules']);
+area = area * 13;
+total_Energy = area/3600;
+disp(['Total Energy required to complete endurance is: ', num2str(total_Energy), ' watt-hours']);
