@@ -1,3 +1,4 @@
+clear
 %% Take inputs
 VehicleMass = 40.194277;
 VelocityTrace = csvread('EnduranceVelocityTrace.csv');
@@ -20,3 +21,8 @@ time_limits = [min(time), max(time)];
 time_index = time_limits(1) <= time & time <= time_limits(2);
 dx = time(2) - time(1); % Calculate the step size
 Energy = sum(Velocity(time_index)) * dx;
+
+disp(['The Energy required for 1 lap is: ', num2str(Energy), ' joules']);
+
+total_Energy = (Energy*13)/3600;
+disp(['Total Energy required to complete endurance is: ', num2str(total_Energy), ' watt-hours']);
