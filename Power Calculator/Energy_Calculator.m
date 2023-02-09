@@ -24,4 +24,7 @@ title('Line of Best Fit');
 x_limits = [0, 14990];
 x_index = x_limits(1) <= x & x <= x_limits(2);
 area = trapz(x(x_index), y(x_index));
-disp(['The area under the curve from 0 to 14990 is: ', num2str(area)]);
+disp(['The area under the curve from 0 to 14990 is: ', num2str(area), ' joules']);
+
+total_Energy = area/3600;
+disp(['Total Energy required: ', num2str(total_Energy), ' watt-hours']);
