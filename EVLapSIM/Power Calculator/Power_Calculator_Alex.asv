@@ -18,7 +18,7 @@ RegenEf = .3;
 MaxEnergy = 8000;
 n = 1;
 
-%% calculations
+%%calcula
 Power = (VehicleMass .* Acceleration .* Velocity) + ((1/2) * air_density * frontal_area * CD .* Velocity .^3) + (Croll * VehicleMass .* Velocity);
 
 
@@ -29,8 +29,8 @@ EnergyP = find(Energy>0);
 N = numel(EnergyP);
 EnergyP(EnergyP>MaxEnergy) = MaxEnergy;
 EnergyRegen = EnergyN .* RegenEf;
-EnergyTotal = (sum(EnergyP) - sum(EnergyRegen))/1000; %kwh output
-fprintf('%f kwh of energy per lap', EnergyTotal)
+EnergyTotal = sum(EnergyP) - sum(EnergyRegen);
+fprintf('%f Wh of energy per lap', EnergyTotal)
 
 figure(4)
 plot(time,Acceleration)
