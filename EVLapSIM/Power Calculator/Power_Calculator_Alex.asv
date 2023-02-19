@@ -15,34 +15,51 @@ CD = .25;
 Croll = .2;
 count = 0;
 RegenEf = .3;
-MaxEnergy = 8000;
+MaxPower = 80000;
 n = 1;
+Laps = 22;
+TireRadius = .3556;%meters
+GearRatio = 3.91;
 
-%%calcula
+%% calculations
+%power calculation
 Power = (VehicleMass .* Acceleration .* Velocity) + ((1/2) * air_density * frontal_area * CD .* Velocity .^3) + (Croll * VehicleMass .* Velocity);
+%tourque calcuation
+RPMWheel = (Velocity./TireRadius*(1/(2*pi)*60));
+RPMMOTOR = (RPMWheel*GearRatio);
+torque = (Power*9.549) ./ RPMMOTOR;
+torque
+sort(torque);
+figure(9)
+plot(RPMMOTOR,torque)
+title('torque over RPM')
+ylabel()
+%energy calculation
+Power(Power>MaxPower) = MaxPower;
+Prows = numel(Power);
+counter1 = 1;
+J = zeros(Prows,1);
+Dtime = [];
+DPower = [];
+while(counter1 <= (Prows-3))
+    Dtime = [time(counter1,1);time(counter1 + 1,1);time(counter1 + 2,1)];
+    DPower = [Power(counter1,1);Power(counter1 + 1,1);Power(counter1 + 2,1)];
+    Energy = (trapz(Dtime, DPower));
+    J(counter1)=Energy;
+    counter1 = counter1 + 1;
+end
+J = J ./ 1000;
 
-
-dx = time(2) - time(1); % Calculate the step size
-Energy = Power .* (dx/((60^2)*1000));
-EnergyN = find(Energy<0);
-EnergyP = find(Energy>0);
-N = numel(EnergyP);
-EnergyP(EnergyP>MaxEnergy) = MaxEnergy;
-EnergyRegen = EnergyN .* RegenEf;
-EnergyTotal = sum(EnergyP) - sum(EnergyRegen);
-fprintf('%f Wh of energy per lap', EnergyTotal)
-
-figure(4)
-plot(time,Acceleration)
-title('Acceleration')
-figure(2)
-plot(time,Velocity)
-title('velocity')
-figure(5)
-plot(time,Energy)
-title('energy')
 figure(1)
-plot(time, Power)
-title('power')
+plot(time,J)
+
+EnergyP = J(J>0);
+EnergyN = J(J<0);
+EnergyRegen = EnergyN .* RegenEf;
+EnergyTotal = (sum(EnergyP) + sum(EnergyRegen))/10000; %kwh output
+EnduranceEnergy = EnergyTotal * Laps;
+fprintf('%f kwh of energy per lap ', EnergyTotal)
+fprintf('%f Kwh of energy for endurance',EnduranceEnergy)
+
 
 
