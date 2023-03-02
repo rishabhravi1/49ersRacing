@@ -30,22 +30,19 @@ Power = (VehicleMass .* Acceleration .* Velocity) + ((1/2) * air_density * front
 RPMWheel = (Velocity./TireRadius*(1/(2*pi)*60));
 RPMMOTOR = (RPMWheel*GearRatio);
 torque = (Power*9.549) ./ RPMMOTOR;
-sort(torque);
+%sort(torque);
 torqueRPM = [torque,RPMMOTOR];
-totalTorque = numel(torque);
-for i=1:totalTorque
+for i=1:count(torque)
 if(torque(i)<=0)
     minTorqueRow = i;
     break
 end
 end
-minTorqueRow = minTorqueRow-1;
 PosTorque = torque(1:minTorqueRow,1);
-PosRPM = RPMMOTOR(1:minTorqueRow,1);
-
+PosRPM = RPMMOTOR(1:mintorq)
 %plot torque
 figure(9)
-plot(PosRPM,PosTorque,'.')
+plot(RPMMOTOR,torque)
 title('torque over RPM')
 xlabel('RPM')
 ylabel('torque (nm)')
@@ -67,7 +64,7 @@ end
 J = J ./ 1000;
 
 figure(1)
-plot(time,J,'.')
+plot(time,J)
 title('energy/time')
 xlabel('time(s)')
 ylabel('energy(Wh)')
