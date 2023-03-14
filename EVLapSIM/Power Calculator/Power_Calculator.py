@@ -1,16 +1,16 @@
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Take inputs
 VehicleMass = 317  # Kg
-VelocityTrace = pd.read_csv('EnduranceVelocityTrace.csv').values
-time = VelocityTrace[:, 0]  # set time seconds
-Velocity = VelocityTrace[:, 1]
+VelocityTrace = pd.read_csv('C:\Users\optim/Documents/GitHub/49ersRacing/EVLapSIM/Power Calculator/EnduranceVelocityTrace.csv')
+time = VelocityTrace.iloc[:, 0].values  # set time seconds
+Velocity = VelocityTrace.iloc[:, 1].values
 Velocity = 0.3048 * Velocity  # convert to m/s
-AccelerationTrace = pd.read_csv('EnduranceAccelerationTrace.csv').values
-Acceleration = AccelerationTrace[:, 1]
+AccelerationTrace = pd.read_csv('C:/Users/optim/Documents/GitHub/49ersRacing/EVLapSIM/Power Calculator/EnduranceAccelerationTrace.csv')
+Acceleration = AccelerationTrace.iloc[:, 1].values
 Acceleration = 9.81 * Acceleration  # convert to m/s^2
 air_density = 1.204  # kg/M^3
 frontal_area = 1.8  # m^2
@@ -18,49 +18,57 @@ CD = 0.25
 Croll = 0.2
 count = 0
 RegenEf = 0.3
-MaxEnergy = 8000
+MaxPower = 80000
 n = 1
+Laps = 22
+TireRadius = 0.3556  # meters
+GearRatio = 3.91
 
-# Calculations
+# power calculation
 Power = (VehicleMass * Acceleration * Velocity) + ((1 / 2) * air_density * frontal_area * CD * Velocity ** 3) + (
             Croll * VehicleMass * Velocity)
 
-dx = time[1] - time[0]  # Calculate the step size
-Energy = Power * (dx / ((60 ** 2) * 1000))
-EnergyN = np.where(Energy < 0)[0]
-EnergyP = np.where(Energy > 0)[0]
-N = len(EnergyP)
-EnergyP[EnergyP > MaxEnergy] = MaxEnergy
+# tourque calcuation
+RPMWheel = (Velocity / TireRadius * (1 / (2 * np.pi) * 60))
+RPMMOTOR = (RPMWheel * GearRatio)
+torque = (Power * 9.549) / RPMMOTOR
+torque = np.sort(torque)
+
+# plot torque
+plt.figure(9)
+plt.plot(RPMMOTOR, torque)
+plt.title('torque over RPM')
+plt.xlabel('RPM')
+plt.ylabel('torque (nm)')
+
+# energy calculation
+Power[Power > MaxPower] = MaxPower
+Prows = Power.size
+counter1 = 1
+J = np.zeros(Prows)
+Dtime = []
+DPower = []
+while (counter1 <= (Prows - 3)):
+    Dtime = [time[counter1], time[counter1 + 1], time[counter1 + 2]]
+    DPower = [Power[counter1], Power[counter1 + 1], Power[counter1 + 2]]
+    Energy = np.trapz(Dtime, DPower)
+    J[counter1] = Energy
+    counter1 = counter1 + 1
+J = J / 1000
+
+plt.figure(1)
+plt.plot(time, J)
+plt.title('energy/time')
+plt.xlabel('time(s)')
+plt.ylabel('energy(Wh)')
+
+EnergyP = J[J > 0]
+EnergyN = J[J < 0]
 EnergyRegen = EnergyN * RegenEf
-EnergyTotal = (np.sum(EnergyP) - np.sum(EnergyRegen)) / 1000  # kwh output
-print(f"{EnergyTotal} kwh of energy per lap")
+EnergyTotal = (np.sum(EnergyP) + np.sum(EnergyRegen)) / 10000  # kwh output
+EnduranceEnergy = EnergyTotal * Laps
+print(f'{EnergyTotal:.3f} kwh of energy per lap')
+print(f'{EnduranceEnergy:.3f} Kwh of energy for endurance')
 
-sns.set_style('darkgrid')
-
-plt.figure(figsize=(8, 6))
-sns.lineplot(x=time, y=Acceleration)
-plt.title('Acceleration')
-plt.xlabel('Time (s)')
-plt.ylabel('Acceleration (m/s^2)')
-plt.show()
-
-plt.figure(figsize=(8, 6))
-sns.lineplot(x=time, y=Velocity)
-plt.title('Velocity')
-plt.xlabel('Time (s)')
-plt.ylabel('Velocity (m/s)')
-plt.show()
-
-plt.figure(figsize=(8, 6))
-sns.lineplot(x=time, y=Energy)
-plt.title('Energy')
-plt.xlabel('Time (s)')
-plt.ylabel('Energy (kW)')
-plt.show()
-
-plt.figure(figsize=(8, 6))
-sns.lineplot(x=time, y=Power)
-plt.title('Power')
-plt.xlabel('Time (s)')
-plt.ylabel('Power (kW)')
+sns.set(style='whitegrid')
 plt.show()
