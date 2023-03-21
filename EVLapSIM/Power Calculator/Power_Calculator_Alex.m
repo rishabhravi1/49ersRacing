@@ -5,7 +5,7 @@ VehicleMass = 317; %Kg
 VelocityTrace = csvread('EnduranceVelocityTrace.csv');
 time = VelocityTrace( :,1); %set time seconds
 Velocity = VelocityTrace(:,2);
-Velocity = .3048 .* Velocity; %convert to m/s
+Velocity = Velocity ./ 3.281; %convert to m/s
 AccelerationTrace = csvread('EnduranceAccelerationTrace.csv');
 Acceleration = AccelerationTrace(:,2);
 Acceleration = 9.81 .* Acceleration; %convert to m/s^2
@@ -22,9 +22,13 @@ TireRadius = .3556;%meters
 GearRatio = 3.91;
 
 %% calculations
+<<<<<<< Updated upstream
 
 %power calculation
 Power = (VehicleMass .* Acceleration .* Velocity) + ((1/2) * air_density * frontal_area * CD .* Velocity .^3) + (Croll * VehicleMass .* Velocity);
+=======
+Power = ((VehicleMass .* Acceleration) + ((1/2) * air_density * frontal_area * CD .* Velocity .^2) + (Croll * VehicleMass)) .* Velocity;
+>>>>>>> Stashed changes
 
 %tourque calcuation
 RPMWheel = (Velocity./TireRadius*(1/(2*pi)*60));
@@ -43,6 +47,7 @@ minTorqueRow = minTorqueRow-1;
 PosTorque = torque(1:minTorqueRow,1);
 PosRPM = RPMMOTOR(1:minTorqueRow,1);
 
+<<<<<<< Updated upstream
 %plot torque
 figure(9)
 plot(PosRPM,PosTorque,'.')
@@ -65,6 +70,17 @@ while(counter1 <= (Prows-3))
     counter1 = counter1 + 1;
 end
 J = J ./ 1000;
+=======
+dx = time(2) - time(1); % Calculate the step size
+Energy = Power .* dx;
+EnergyN = find(Energy<0);
+EnergyP = find(Energy>0);
+N = numel(EnergyP);
+EnergyP(EnergyP>MaxEnergy) = MaxEnergy;
+EnergyRegen = EnergyN .* RegenEf;
+EnergyTotal = (sum(EnergyP) - sum(EnergyRegen)); %wh output
+fprintf('%f kwh of energy per lap', EnergyTotal)
+>>>>>>> Stashed changes
 
 figure(1)
 plot(time,J,'.')
