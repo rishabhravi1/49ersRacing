@@ -1,0 +1,89 @@
+---
+title: "IC Michigan Results Covariance"
+format: html
+editor: visual
+---
+
+# Covariance Calculator
+
+This QMD file finds the correlation of event score and total
+
+```{r}
+
+library(readr)
+library(readxl)
+library(ggplot2)
+library(gtsummary)
+
+
+
+```
+
+## Load Data Set
+
+```{r}
+dataMichigan <- read_excel("IC Historical Comp DATA.xlsx",sheet = "Sheet1")
+dataMichigan
+
+```
+
+## Static Events Linear Models
+
+```{r}
+data_model_cost <- lm(dataMichigan$Cost ~ dataMichigan$Placing, data = dataMichigan)
+data_model_presentation <- lm(dataMichigan$Presentation ~ dataMichigan$Placing, data = dataMichigan)
+data_model_design <- lm(dataMichigan$Design ~ dataMichigan$Placing, data = dataMichigan)
+```
+
+## Dynamic Events Linear Models
+
+```{r}
+data_model_acceleration <- lm(dataMichigan$Placing ~ dataMichigan$Acceleration, data = dataMichigan)
+data_model_skidPad <- lm(dataMichigan$Placing ~ dataMichigan$SkidPad, data = dataMichigan)
+data_model_autocross <- lm(dataMichigan$Placing ~ dataMichigan$Autocross, data = dataMichigan)
+data_model_endurance <- lm(dataMichigan$Placing ~ dataMichigan$Endurance, data = dataMichigan)
+```
+
+## Static events covariance
+
+```{r}
+complete_data <- dataMichigan[complete.cases(dataMichigan$Presentation, dataMichigan$Placing), ]
+cov_Presentation <- cov(complete_data$Presentation, complete_data$Placing)
+
+complete_data <- dataMichigan[complete.cases(dataMichigan$Cost, dataMichigan$Placing), ]
+cov_Cost <- cov(complete_data$Cost, complete_data$Placing)
+
+complete_data <- dataMichigan[complete.cases(dataMichigan$Design, dataMichigan$Placing), ]
+cov_Design <- cov(complete_data$Design, complete_data$Placing)
+
+
+```
+
+## Dynamic events covariance
+
+```{r}
+complete_data <- dataMichigan[complete.cases(dataMichigan$Autocross, dataMichigan$Placing), ]
+cov_Autocross <- cov(complete_data$Autocross, complete_data$Placing)
+
+complete_data <- dataMichigan[complete.cases(dataMichigan$SkidPad, dataMichigan$Placing), ]
+cov_SkidPad <- cov(complete_data$SkidPad, complete_data$Placing)
+
+complete_data <- dataMichigan[complete.cases(dataMichigan$Acceleration, dataMichigan$Placing), ]
+cov_Acceleration <- cov(complete_data$Acceleration, complete_data$Placing)
+
+complete_data <- dataMichigan[complete.cases(dataMichigan$Endurance, dataMichigan$Placing), ]
+cov_Endurance <- cov(complete_data$Endurance, complete_data$Placing)
+```
+
+## Output of Events to focus on to do well in order
+
+```{r}
+corr_list <- c(Presentation=cov_Presentation, Cost=cov_Cost, Design=cov_Design, Autocross=cov_Autocross, SkidPad=cov_SkidPad, Acceleration=cov_Acceleration, Endurance=cov_Endurance)
+
+corr_list_sorted <- sort(corr_list, decreasing= FALSE, na.last=NA)
+
+print("Correlations from highest to lowest:")
+for (event in names(corr_list_sorted)) {
+  print(paste(event, corr_list_sorted[event], sep=": "))
+}
+```

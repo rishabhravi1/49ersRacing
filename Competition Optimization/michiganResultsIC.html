@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>IC Michigan Results Covariance</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="michiganResultsIC_files/libs/clipboard/clipboard.min.js"></script>
+<script src="michiganResultsIC_files/libs/quarto-html/quarto.js"></script>
+<script src="michiganResultsIC_files/libs/quarto-html/popper.min.js"></script>
+<script src="michiganResultsIC_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="michiganResultsIC_files/libs/quarto-html/anchor.min.js"></script>
+<link href="michiganResultsIC_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="michiganResultsIC_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="michiganResultsIC_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="michiganResultsIC_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="michiganResultsIC_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">IC Michigan Results Covariance</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="covariance-calculator" class="level1">
+<h1>Covariance Calculator</h1>
+<p>This QMD file finds the correlation of event score and total</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="load-data-set" class="level2">
+<h2 class="anchored" data-anchor-id="load-data-set">Load Data Set</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dataMichigan <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"IC Historical Comp DATA.xlsx"</span>,<span class="at">sheet =</span> <span class="st">"Sheet1"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dataMichigan</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 75 × 10
+   Placing  Cost Presenta…¹ Design Accel…² SkidPad Autoc…³ Endur…⁴ Effic…⁵ Total
+     &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+ 1       1  74.7       62.6   147     83.5    56.3   124.     264.    76.8  889.
+ 2       2  64.1       64.9   125.    79.9    63.7   112.     245.    95.5  850.
+ 3       3  65.8       55.7   129.    82.0    58.6   108.     231.    78.5  808.
+ 4       4  62.4       54.9   128.    81.9    44.4   101.     218.    70.8  762.
+ 5       5  67.1       66.5   101     79.1    50.5    98.0    185.    82.4  730.
+ 6       6  72.8       61.8   111.    72.1    57.5    89.7    161.    72.7  699.
+ 7       7  66.0       54.2    90     68.8    53.8    95.8    188.    68.5  685.
+ 8       8  65.7       56.0   109.    67.0    40.4    83.0    178.    69.4  668.
+ 9       9  66.7       48.5    93     68.4    52.0    81.1    176.    71.3  657.
+10      10  65.0       55.9    96     71.9    39.8    83.9    180.    67.8  660.
+# … with 65 more rows, and abbreviated variable names ¹​Presentation,
+#   ²​Acceleration, ³​Autocross, ⁴​Endurance, ⁵​Efficiency</code></pre>
+</div>
+</div>
+</section>
+<section id="static-events-linear-models" class="level2">
+<h2 class="anchored" data-anchor-id="static-events-linear-models">Static Events Linear Models</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data_model_cost <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataMichigan<span class="sc">$</span>Cost <span class="sc">~</span> dataMichigan<span class="sc">$</span>Placing, <span class="at">data =</span> dataMichigan)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data_model_presentation <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataMichigan<span class="sc">$</span>Presentation <span class="sc">~</span> dataMichigan<span class="sc">$</span>Placing, <span class="at">data =</span> dataMichigan)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>data_model_design <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataMichigan<span class="sc">$</span>Design <span class="sc">~</span> dataMichigan<span class="sc">$</span>Placing, <span class="at">data =</span> dataMichigan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="dynamic-events-linear-models" class="level2">
+<h2 class="anchored" data-anchor-id="dynamic-events-linear-models">Dynamic Events Linear Models</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data_model_acceleration <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataMichigan<span class="sc">$</span>Placing <span class="sc">~</span> dataMichigan<span class="sc">$</span>Acceleration, <span class="at">data =</span> dataMichigan)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data_model_skidPad <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataMichigan<span class="sc">$</span>Placing <span class="sc">~</span> dataMichigan<span class="sc">$</span>SkidPad, <span class="at">data =</span> dataMichigan)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data_model_autocross <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataMichigan<span class="sc">$</span>Placing <span class="sc">~</span> dataMichigan<span class="sc">$</span>Autocross, <span class="at">data =</span> dataMichigan)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data_model_endurance <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataMichigan<span class="sc">$</span>Placing <span class="sc">~</span> dataMichigan<span class="sc">$</span>Endurance, <span class="at">data =</span> dataMichigan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="static-events-covariance" class="level2">
+<h2 class="anchored" data-anchor-id="static-events-covariance">Static events covariance</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>complete_data <span class="ot">&lt;-</span> dataMichigan[<span class="fu">complete.cases</span>(dataMichigan<span class="sc">$</span>Presentation, dataMichigan<span class="sc">$</span>Placing), ]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cov_Presentation <span class="ot">&lt;-</span> <span class="fu">cov</span>(complete_data<span class="sc">$</span>Presentation, complete_data<span class="sc">$</span>Placing)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>complete_data <span class="ot">&lt;-</span> dataMichigan[<span class="fu">complete.cases</span>(dataMichigan<span class="sc">$</span>Cost, dataMichigan<span class="sc">$</span>Placing), ]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>cov_Cost <span class="ot">&lt;-</span> <span class="fu">cov</span>(complete_data<span class="sc">$</span>Cost, complete_data<span class="sc">$</span>Placing)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>complete_data <span class="ot">&lt;-</span> dataMichigan[<span class="fu">complete.cases</span>(dataMichigan<span class="sc">$</span>Design, dataMichigan<span class="sc">$</span>Placing), ]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>cov_Design <span class="ot">&lt;-</span> <span class="fu">cov</span>(complete_data<span class="sc">$</span>Design, complete_data<span class="sc">$</span>Placing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="dynamic-events-covariance" class="level2">
+<h2 class="anchored" data-anchor-id="dynamic-events-covariance">Dynamic events covariance</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>complete_data <span class="ot">&lt;-</span> dataMichigan[<span class="fu">complete.cases</span>(dataMichigan<span class="sc">$</span>Autocross, dataMichigan<span class="sc">$</span>Placing), ]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cov_Autocross <span class="ot">&lt;-</span> <span class="fu">cov</span>(complete_data<span class="sc">$</span>Autocross, complete_data<span class="sc">$</span>Placing)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>complete_data <span class="ot">&lt;-</span> dataMichigan[<span class="fu">complete.cases</span>(dataMichigan<span class="sc">$</span>SkidPad, dataMichigan<span class="sc">$</span>Placing), ]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>cov_SkidPad <span class="ot">&lt;-</span> <span class="fu">cov</span>(complete_data<span class="sc">$</span>SkidPad, complete_data<span class="sc">$</span>Placing)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>complete_data <span class="ot">&lt;-</span> dataMichigan[<span class="fu">complete.cases</span>(dataMichigan<span class="sc">$</span>Acceleration, dataMichigan<span class="sc">$</span>Placing), ]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>cov_Acceleration <span class="ot">&lt;-</span> <span class="fu">cov</span>(complete_data<span class="sc">$</span>Acceleration, complete_data<span class="sc">$</span>Placing)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>complete_data <span class="ot">&lt;-</span> dataMichigan[<span class="fu">complete.cases</span>(dataMichigan<span class="sc">$</span>Endurance, dataMichigan<span class="sc">$</span>Placing), ]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>cov_Endurance <span class="ot">&lt;-</span> <span class="fu">cov</span>(complete_data<span class="sc">$</span>Endurance, complete_data<span class="sc">$</span>Placing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="output-of-events-to-focus-on-to-do-well-in-order" class="level2">
+<h2 class="anchored" data-anchor-id="output-of-events-to-focus-on-to-do-well-in-order">Output of Events to focus on to do well in order</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>corr_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Presentation=</span>cov_Presentation, <span class="at">Cost=</span>cov_Cost, <span class="at">Design=</span>cov_Design, <span class="at">Autocross=</span>cov_Autocross, <span class="at">SkidPad=</span>cov_SkidPad, <span class="at">Acceleration=</span>cov_Acceleration, <span class="at">Endurance=</span>cov_Endurance)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>corr_list_sorted <span class="ot">&lt;-</span> <span class="fu">sort</span>(corr_list, <span class="at">decreasing=</span> <span class="cn">FALSE</span>, <span class="at">na.last=</span><span class="cn">NA</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Correlations from highest to lowest:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Correlations from highest to lowest:"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (event <span class="cf">in</span> <span class="fu">names</span>(corr_list_sorted)) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste</span>(event, corr_list_sorted[event], <span class="at">sep=</span><span class="st">": "</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Endurance: -1244.3995045045"
+[1] "Autocross: -445.465765765766"
+[1] "Design: -268.370945945946"
+[1] "Acceleration: -217.340472972973"
+[1] "SkidPad: -206.553310810811"
+[1] "Presentation: -77.705"
+[1] "Cost: -28.1212162162162"</code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
