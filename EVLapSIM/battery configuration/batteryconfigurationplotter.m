@@ -7,7 +7,8 @@ PerCellMaxCurrent = 45; %A
 CellNominalVoltage = 3.7;
 CellMaxVoltage = 4.2;
 perCellMass = 46; %grams
-IdealCapacity = 5.6;
+IdealCapacity = 7;
+AcceptablePower = 40;
 
 %create Cell count, battery mass, power, capacity vectors
 R = 1;
@@ -33,10 +34,22 @@ z = ones(max(PV),1).*IdealCapacity;
 %% find Series and paraelle connections that work for ideal capacity
 for I = 1:numel(CapacityV)
     if(CapacityV(I,1)>=(IdealCapacity-.1)&&CapacityV(I,1)<=(IdealCapacity+.1))
-            IdealS(I,1) = SV(I,1);
-            IdealP(I,1) = PV(I,1);
+            IdealSC(I,1) = SV(I,1);
+            IdealPC(I,1) = PV(I,1);
     end
 end
+
+%power ideal finder
+IdealPower = (IdealSC .* IdealPC .* PerCellMaxCurrent * CellNominalVoltage)./1000;
+for I = 1:numel(IdealPower)
+    if(IdealPower(I,1)<=maxPower)
+        if(IdealPower(I,1)>=AcceptablePower)
+            IdealP(I,1) = PV(I,1);
+            IdealS(I,1) = SV(I,1);
+        end
+    end
+end
+
 IdealP = nonzeros(IdealP);
 IdealS = nonzeros(IdealS);
 %find lightest weight configuration

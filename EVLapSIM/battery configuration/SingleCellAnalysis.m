@@ -1,4 +1,4 @@
-function [LightS,LightP,Mass] = SingleCellAnalysis(maxPower,PerCellCap,PerCellMaxCurrent,CellNominalVoltage,CellMaxVoltage,perCellMass,IdealCapacity)
+function [LightS,LightP,Mass,Power] = SingleCellAnalysis(maxPower,PerCellCap,PerCellMaxCurrent,CellNominalVoltage,CellMaxVoltage,perCellMass,IdealCapacity,AcceptablePower)
 %create Cell count, battery mass, power, capacity vectors
 R = 1;
 SeriesMax = 600/CellMaxVoltage;
@@ -23,25 +23,41 @@ z = ones(max(PV),1).*IdealCapacity;
 %find Series and paraelle connections that work for ideal capacity
 for I = 1:numel(CapacityV)
     if(CapacityV(I,1)>=(IdealCapacity-.1))
-        if(CapacityV(I,1)<=(IdealCapacity+.1))
-            IdealS(I,1) = SV(I,1);
-            IdealP(I,1) = PV(I,1);
+        if(CapacityV(I,1)<=(IdealCapacity+2))
+           
+            IdealSC(I,1) = SV(I,1);
+            IdealPC(I,1) = PV(I,1);
+           
         end
     end
 end
+
+%power ideal finder
+IdealPower = (IdealSC .* IdealPC .* PerCellMaxCurrent * CellNominalVoltage)./1000;
+for I = 1:numel(IdealPower)
+    if(IdealPower(I,1)<=maxPower)
+        if(IdealPower(I,1)>=AcceptablePower)
+            IdealP(I,1) = PV(I,1);
+            IdealS(I,1) = SV(I,1);
+        end
+    end
+end
+
 IdealP = nonzeros(IdealP);
 IdealS = nonzeros(IdealS);
 %find lightest weight configuration
 MassPast = 100;
 for I = 1:numel(IdealP)
-    MassCurrent = IdealS(I,1)*IdealP(I,1)*perCellMass/1000;
+    J = (numel(IdealP)+1)-I;
+    MassCurrent = IdealS(J,1)*IdealP(J,1)*perCellMass/1000;
     if (MassCurrent < MassPast)
         MassPast = MassCurrent;
-        LightP = IdealP(I,1);
-        LightS = IdealS(I,1);
+        LightP = IdealP(J,1);
+        LightS = IdealS(J,1);
         Mass = MassCurrent;
     end
 end
+Power = (LightP*LightS*PerCellMaxCurrent*CellNominalVoltage)/1000;
 % filter power to be useable power
 for I = 1:numel(PowerV)
     if(PowerV(I,1)>=maxPower)
