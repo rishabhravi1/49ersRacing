@@ -1,31 +1,31 @@
-clear
-clc
+function [EnduranceEnergy,PosRPM,PosTorque] = powerCalculator(VehicleMass,VelocityTrace,AccelerationTrace,air_density,frontal_area,CD,Croll,RegenEf,MaxPower,Laps,TireRadius,GearRatio)
+%calculates accumulator capacity from velocity over time and acceleration
+%over time
+%   Detailed explanation goes here
 %% Take inputs
-VehicleMass = 317; %Kg
-VelocityTrace = csvread('EnduranceVelocityTrace.csv');
+%VehicleMass = 317; %Kg
+%VelocityTrace = csvread('EnduranceVelocityTrace.csv');
 time = VelocityTrace( :,1); %set time seconds
 Velocity = VelocityTrace(:,2);
 Velocity = Velocity ./ 3.281; %convert to m/s
-AccelerationTrace = csvread('EnduranceAccelerationTrace.csv');
+%AccelerationTrace = csvread('EnduranceAccelerationTrace.csv');
 Acceleration = AccelerationTrace(:,2);
 Acceleration = 9.81 .* Acceleration; %convert to m/s^2
-air_density = 1.204; %kg/M^3
-frontal_area = 1.8; %m^2
-CD = .19;
-Croll = .2;
+%air_density = 1.204; %kg/M^3
+%frontal_area = 1.8; %m^2
+%CD = .19;
+%Croll = .2;
 count = 0;
-RegenEf = .3;
-MaxPower = 80000;
+%RegenEf = .3;
+%MaxPower = 80000;
 n = 1;
-Laps = 22;
-TireRadius = .3556;%meters
-GearRatio = 3.91;
+%Laps = 22;
+%TireRadius = .3556;%meters
+%GearRatio = 3.91;
 
 %% calculations
 
 %power calculation
-Power = (VehicleMass .* Acceleration .* Velocity) + ((1/2) * air_density * frontal_area * CD .* Velocity .^3) + (Croll * VehicleMass .* Velocity);
-
 Power = ((VehicleMass .* Acceleration) + ((1/2) * air_density * frontal_area .* CD .* Velocity .^2) + (Croll .* VehicleMass)) .* Velocity;
 
 
@@ -47,12 +47,6 @@ PosTorque = torque(1:minTorqueRow,1);
 PosRPM = RPMMOTOR(1:minTorqueRow,1);
 
 
-%plot torque
-figure(9)
-plot(PosRPM,PosTorque,'.')
-title('torque over RPM')
-xlabel('RPM')
-ylabel('torque (nm)')
 
 %energy calculation
 Power(Power>MaxPower) = MaxPower;
@@ -78,22 +72,15 @@ N = numel(EnergyP);
 %EnergyP(EnergyP>MaxEnergy) = MaxEnergy;
 EnergyRegen = EnergyN .* RegenEf;
 EnergyTotal = (sum(EnergyP) - sum(EnergyRegen)); %wh output
-fprintf('%f kwh of energy per lap', EnergyTotal)
 
 
-figure(1)
-plot(time,J,'.')
-title('energy/time')
-xlabel('time(s)')
-ylabel('energy(Wh)')
+
+
 
 EnergyP = J(J>0);
 EnergyN = J(J<0);
 EnergyRegen = EnergyN .* RegenEf;
 EnergyTotal = (sum(EnergyP) + sum(EnergyRegen))/10000; %kwh output
 EnduranceEnergy = EnergyTotal * Laps;
-fprintf('%f kwh of energy per lap ', EnergyTotal)
-fprintf('%f Kwh of energy for endurance',EnduranceEnergy)
 
-
-
+end
