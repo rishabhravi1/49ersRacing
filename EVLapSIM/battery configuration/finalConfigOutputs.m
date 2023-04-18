@@ -14,9 +14,9 @@ IdealCapacity = 7; %KWh
 MinPower = 50; %KW
 
 for I = 1:numel(PerCellMassV)
-    try
+    
     [OutputS(I,1),OutputP(I,1),OutputMass(I,1),OutputPower(I,1)] = SingleCellAnalysis(MaxPower,CellCapcityV(I,1),PerCellContCurrentV(I,1),nominalVoltageV(I,1),CellMaxVoltage,PerCellMassV(I,1),IdealCapacity,MinPower);
-    end
+    
     OutputMass(I,2) = I;
     OutputS(I,2) = I;
     OutputP(I,2) = I;
@@ -33,7 +33,7 @@ currentMass = 100;
 for I = 1:numel(OutputMass)
     if(OutputMass(I,1) < currentMass)
         currentMass = OutputMass(I,1);
-        IdealCell = OutputMass(I,2);
+        IdealCell = I;
     end
 end
 fprintf('lightest cell and configuration cell # %f and %f series, %f paraelle power output cont. is %f Kw',IdealCell,OutputS(IdealCell,1),OutputP(IdealCell,1),OutputPower(IdealCell,1))

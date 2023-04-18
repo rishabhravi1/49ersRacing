@@ -2,12 +2,12 @@ clc
 clear
 %function inputs
 maxPower = 80; %Kw
-PerCellCap = 4.5; %Ah
+PerCellCap = 17.1; %Ah
 PerCellMaxCurrent = 45; %A
-CellNominalVoltage = 3.7;
-CellMaxVoltage = 4.2;
-perCellMass = 46; %grams
-IdealCapacity = 7;
+CellNominalVoltage = 3.2;
+CellMaxVoltage = 3.8;
+perCellMass = 563; %grams
+IdealCapacity = 6;
 AcceptablePower = 40;
 
 %create Cell count, battery mass, power, capacity vectors
@@ -34,21 +34,21 @@ z = ones(max(PV),1).*IdealCapacity;
 %% find Series and paraelle connections that work for ideal capacity
 for I = 1:numel(CapacityV)
     if(CapacityV(I,1)>=(IdealCapacity-.1)&&CapacityV(I,1)<=(IdealCapacity+.1))
-            IdealSC(I,1) = SV(I,1);
-            IdealPC(I,1) = PV(I,1);
+            IdealS(I,1) = SV(I,1);
+            IdealP(I,1) = PV(I,1);
     end
 end
 
 %power ideal finder
-IdealPower = (IdealSC .* IdealPC .* PerCellMaxCurrent * CellNominalVoltage)./1000;
-for I = 1:numel(IdealPower)
-    if(IdealPower(I,1)<=maxPower)
-        if(IdealPower(I,1)>=AcceptablePower)
-            IdealP(I,1) = PV(I,1);
-            IdealS(I,1) = SV(I,1);
-        end
-    end
-end
+% IdealPower = (IdealSC .* IdealPC .* PerCellMaxCurrent * CellNominalVoltage)./1000;
+% for I = 1:numel(IdealPower)
+%     if(IdealPower(I,1)<=maxPower)
+%         if(IdealPower(I,1)>=AcceptablePower)
+%             IdealP(I,1) = PV(I,1);
+%             IdealS(I,1) = SV(I,1);
+%         end
+%     end
+% end
 
 IdealP = nonzeros(IdealP);
 IdealS = nonzeros(IdealS);

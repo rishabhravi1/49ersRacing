@@ -25,23 +25,23 @@ for I = 1:numel(CapacityV)
     if(CapacityV(I,1)>=(IdealCapacity-.1))
         if(CapacityV(I,1)<=(IdealCapacity+2))
            
-            IdealSC(I,1) = SV(I,1);
-            IdealPC(I,1) = PV(I,1);
+            IdealS(I,1) = SV(I,1);
+            IdealP(I,1) = PV(I,1);
            
         end
     end
 end
 
-%power ideal finder
-IdealPower = (IdealSC .* IdealPC .* PerCellMaxCurrent * CellNominalVoltage)./1000;
-for I = 1:numel(IdealPower)
-    if(IdealPower(I,1)<=maxPower)
-        if(IdealPower(I,1)>=AcceptablePower)
-            IdealP(I,1) = PV(I,1);
-            IdealS(I,1) = SV(I,1);
-        end
-    end
-end
+% %power ideal finder
+% IdealPower = (IdealSC .* IdealPC .* PerCellMaxCurrent * CellNominalVoltage)./1000;
+% for I = 1:numel(IdealPower)
+%     if(IdealPower(I,1)<=maxPower)
+%         if(IdealPower(I,1)>=AcceptablePower)
+%             IdealP(I,1) = PV(I,1);
+%             IdealS(I,1) = SV(I,1);
+%         end
+%     end
+% end
 
 IdealP = nonzeros(IdealP);
 IdealS = nonzeros(IdealS);
