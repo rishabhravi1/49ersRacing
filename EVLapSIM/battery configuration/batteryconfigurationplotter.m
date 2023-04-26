@@ -2,11 +2,11 @@ clc
 clear
 %function inputs
 maxPower = 80; %Kw
-PerCellCap = 17.1; %Ah
+PerCellCap = 4.2; %Ah
 PerCellMaxCurrent = 45; %A
-CellNominalVoltage = 3.2;
-CellMaxVoltage = 3.8;
-perCellMass = 563; %grams
+CellNominalVoltage = 3.6;
+CellMaxVoltage = 4.2;
+perCellMass = 70; %grams
 IdealCapacity = 6;
 AcceptablePower = 40;
 
@@ -32,7 +32,8 @@ end
 z = ones(max(PV),1).*IdealCapacity;
 
 %% find Series and paraelle connections that work for ideal capacity
-for I = 1:numel(CapacityV)
+for I = 1:(numel(CapacityV))
+    
     if(CapacityV(I,1)>=(IdealCapacity-.1)&&CapacityV(I,1)<=(IdealCapacity+.1))
             IdealS(I,1) = SV(I,1);
             IdealP(I,1) = PV(I,1);
