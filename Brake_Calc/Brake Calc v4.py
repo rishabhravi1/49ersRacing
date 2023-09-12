@@ -99,7 +99,7 @@ for i in range(3, n+1):
     
     fwp = Wdf/(Wdf + Wdr)
 
-    Ke = ((mv) * (abs(V**2 - V_old**2)))  / 2 #v^2 - V0 ^2 
+    Ke = ((mv) * (V**2 - V_old**2))  / 2 #v^2 - V0 ^2 
     
     if a < 0: 
         deltaT = abs(Ke) / (mr*4*Cp)
