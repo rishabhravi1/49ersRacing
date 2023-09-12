@@ -1,7 +1,7 @@
 clear
 clc
 %% Take inputs
-VehicleMass = 317; %Kg
+VehicleMass = 285; %Kg
 VelocityTrace = csvread('EnduranceVelocityTrace.csv');
 time = VelocityTrace( :,1); %set time seconds
 Velocity = VelocityTrace(:,2);
