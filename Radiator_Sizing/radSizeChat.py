@@ -18,4 +18,5 @@ def radiator_size(engine_power):
 engine_power = float(input("Enter engine power in kW: "))
 
 result = radiator_size(engine_power)
-print(f"\nYou would need a radiator with an approximate size of {result:.2f} square meters.")
+print(f"\nYou would need a radiator with an approximate size of {result:.2f} square meters.")\
+    
